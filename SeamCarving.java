@@ -18,7 +18,8 @@ public class SeamCarver {
 		findSeam (finds the min seam)
 		carve (carves out the seams)
 		removeSeam (removes a seam)
-		printCarved (opens the new image)
+		showNew (opens the new image)
+		showSeams (opens the original image with the removed seams highlighted)
 		getNum/setNum (gets and sets the seam number ~ for updating purposes)
 
 	public SeamCarver(File filename, int seamNumber) {
@@ -29,38 +30,53 @@ public class SeamCarver {
 	}
 
 	private int getNum() {
+		// Code
+		// Gets the seamNumber.
 		return this.seamNumber;
 	}
 
 	private void setNum(int newSeamNumber) {
+		// Code
+		// Sets the seamNumber to the given value.
 		this.seamNumber = newSeamNumber
 	}
 
 	private List findSeam(xx) {
 		// Code
+		// Finds the minimum seam by looking at the energy table.
 	}
 
 	private List computeEnergy(xx) {
 		// Code
+		// Loops over each pixel and calculates its energy --> table.
 	}
 
 	private void removeSeam(xx) {
 		// Code
+		// Finds the minimum seam and removes it.
 	}
 
-	private void carve(xx) {
+	private void carve() {
 		// Code
+		// Carves out the desired number of seams from the image. Displays the
+		// new image (without the carved seams).
 
 		while this.getNum() > 0:
 			// Code
 			// removeSeam() --> findSeam() --> computeEnergy()
 			// 				--> setNum() = getNum() - 1
 
-		// printCarved()
+		// showNew()
+	}
+	
+	private void showNew(xx) {
+		// Code
+		// Displays the new image.
 	}
 
-	private void printCarved(xx) {
+	private void showSeams(xx) {
 		// Code
+		// Shows which seams have been removed.
 	}
 }
 
