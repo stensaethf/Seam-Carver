@@ -6,7 +6,6 @@
  * Java program to perform content-aware image resizing using seam carving.
  **/
 
-
 import java.awt.image.BufferedImage;
 
 /**
@@ -42,26 +41,22 @@ public class SeamCarver {
 	}
 
 	/**
-	 * getNum() xx
+	 * getNum() returns the seamNumber of the SeamCarver object.
 	 *
-	 * @param xx
-	 * @return xx
+	 * @param n/a.
+	 * @return seamNumber (int).
 	 */
 	private int getNum() {
-		// Code
-		// Gets the seamNumber.
 		return this.seamNumber;
 	}
 
 	/**
-	 * setNum() xx
+	 * setNum() sets the seamNumber of the SeamCarver object.
 	 *
-	 * @param xx
-	 * @return xx
+	 * @param new seamNumber (int).
+	 * @return n/a.
 	 */
 	private void setNum(int newSeamNumber) {
-		// Code
-		// Sets the seamNumber to the given value.
 		this.seamNumber = newSeamNumber
 	}
 
@@ -71,7 +66,7 @@ public class SeamCarver {
 	 * @param xx
 	 * @return xx
 	 */
-	private List findSeam(xx) {
+	private List findSeam(xx) { // specift the list later.
 		// Code
 		// Finds the minimum seam by looking at the energy table.
 	}
@@ -82,7 +77,7 @@ public class SeamCarver {
 	 * @param xx
 	 * @return xx
 	 */
-	private List computeEnergy(xx) {
+	private List computeEnergy(xx) { // specify the list later.
 		// Code
 		// Loops over each pixel and calculates its energy --> table.
 	}
@@ -109,19 +104,20 @@ public class SeamCarver {
 		// Carves out the desired number of seams from the image. Displays the
 		// new image (without the carved seams).
 
-		while this.getNum() > 0:
+		while this.getNum() > 0 {
 			// Code
 			// removeSeam() --> findSeam() --> computeEnergy()
 			// 				--> setNum() = getNum() - 1
+		}
 
 		// showNew()
 	}
 	
 	/**
-	 * showNew() xx
+	 * showNew() opens the image without the seams that were removed.
 	 *
 	 * @param xx
-	 * @return xx
+	 * @return n/a.
 	 */
 	private void showNew(xx) {
 		// Code
@@ -129,22 +125,34 @@ public class SeamCarver {
 	}
 
 	/**
-	 * showSeams() xx
+	 * showSeams() opens the image with the removed seams highlighted.
 	 *
 	 * @param xx
-	 * @return xx
+	 * @return n/a.
 	 */
 	private void showSeams(xx) {
 		// Code
 		// Shows which seams have been removed.
 	}
-}
 
-public static void main(String[] args) throws Exception {
-	if not 2 args given (file and carve number)
-		error
-		exit
+	public static void main(String[] args) throws Exception {
+		// if not 2 args given (file and carve number)
+		// 	error
+		// 	exit
+		if (args.length != 2) {
+			System.out.println('Error, incorrect number of arguments provided.');
+			System.out.println('Usage: $ SeamCarver <filename> <number of seams (int)>')
+			System.exit(1);
+		}
 
-	carve the given number of seams on the provided image 
-		(might need to check for file extentions to ensure it is an image)
+		// carve the given number of seams on the provided image 
+		// 	(might need to check for file extentions to ensure it is an image)
+		try {
+			SeamCarver sc = new SeamCarver(args[0], args[1])
+		} catch {
+			System.out.println('Error, incorrect arguments provided.');
+			System.out.println('Usage: $ SeamCarver <filename> <number of seams (int)>')
+			System.exit(1);
+		}
+	}
 }
