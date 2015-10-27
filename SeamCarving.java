@@ -1,3 +1,11 @@
+/**
+ * SeamCarving.java
+ * Frederik Roenn Stensaeth
+ * Date: 10.27.15
+ *
+ * Java program to perform content-aware image resizing using seam carving.
+ **/
+
 
 import java.awt.image.BufferedImage;
 
