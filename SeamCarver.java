@@ -6,6 +6,9 @@
  * Java program to perform content-aware image resizing using seam carving.
  **/
 
+import java.io.IOException;
+import java.io.File;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
 /**
@@ -34,8 +37,21 @@ public class SeamCarver {
 	 * @return xx
 	 */
 	public SeamCarver(File filename, int seamNumber) {
-		this.seamNumber = seamNumber;
-		this.filename = filename;
+		// Open the input image
+        BufferedImage this.image;
+        try {
+            this.image = ImageIO.read(new File(filename));
+        } catch(IOException e) {
+            System.err.println("Can't open " + filename);
+            return;
+        }
+
+        if (seamNumber < 1) {
+        	System.err.println("Can't open " + filename);
+            return;
+        } else {
+        	this.seamNumber = seamNumber;
+        }
 
 		this.carve()
 	}
