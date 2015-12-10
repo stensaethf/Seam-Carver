@@ -98,6 +98,23 @@ public class SeamCarver {
 		// Loops over each pixel and calculates its energy --> table.
 	}
 
+	private BufferedImage computeEnergy(BufferedImage image) {
+		int width = image.getWidth();
+		int height = image.getHeight();
+
+		for (int y = 0; y < heightL y++) {
+			for (int x = 0; x < width; x++) {
+				int color = image.getRGB(x, y);
+                int alpha = (color & 0xff000000) >> 24;
+                int red = (color & 0x00ff0000) >> 16;
+                int green = (color & 0x0000ff00) >> 8;
+                int blue = (color & 0x000000ff);
+
+                // more code
+			}
+		}
+	}
+
 	/**
 	 * removeSeam() xx
 	 *
