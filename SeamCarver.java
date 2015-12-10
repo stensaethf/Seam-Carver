@@ -1,7 +1,7 @@
 /**
  * SeamCarver.java
  * Frederik Roenn Stensaeth
- * Date: 10.27.15
+ * Date: 12.09.15
  *
  * Java program to perform content-aware image resizing using seam carving.
  **/
@@ -36,8 +36,9 @@ public class SeamCarver {
 	 * @param xx
 	 * @return xx
 	 */
-	public SeamCarver(File filename, int seamNumber) {
+	public SeamCarver(String filename, Integer seamNumber, String direction) {
 		// Open the input image
+		this.direction = direction;
         BufferedImage this.image;
         try {
             this.image = ImageIO.read(new File(filename));
@@ -56,13 +57,41 @@ public class SeamCarver {
 		this.carve()
 	}
 
+	private void setDirection(String direction) {
+		this.direction = direction;
+	}
+
+	private String getDirection() {
+		return this.direction;
+	}
+
+	/**
+	 * setImate() sets the image of the SeamCarver object.
+	 *
+	 * @param image (BufferedImage).
+	 * @return n/a.
+	 */
+	private void setImage(BufferedImage image) {
+		this.image = image;
+	}
+
+	/**
+	 * getImate() returns the image of the SeamCarver object.
+	 *
+	 * @param n/a.
+	 * @return image (BufferedImage).
+	 */
+	private BufferedImage getImage() {
+		return this.image;
+	}
+
 	/**
 	 * getNum() returns the seamNumber of the SeamCarver object.
 	 *
 	 * @param n/a.
 	 * @return seamNumber (int).
 	 */
-	private int getNum() {
+	private Integer getNum() {
 		return this.seamNumber;
 	}
 
@@ -72,8 +101,8 @@ public class SeamCarver {
 	 * @param new seamNumber (int).
 	 * @return n/a.
 	 */
-	private void setNum(int newSeamNumber) {
-		this.seamNumber = newSeamNumber
+	private void setNum(Integer newSeamNumber) {
+		this.seamNumber = newSeamNumber;
 	}
 
 	/**
@@ -82,9 +111,32 @@ public class SeamCarver {
 	 * @param xx
 	 * @return xx
 	 */
-	private List findSeam(xx) { // specift the list later.
+	private Integer[] findSeam() { // specift the list later.
 		// Code
 		// Finds the minimum seam by looking at the energy table.
+		String direction = this.getDirection();
+		BufferedImage image = this.getImage();
+		int width = image.getWidth();
+		int height = image.getHeight();
+		int[][] energy_table = this.computeEnergy();
+		int[] seam = new int[];
+
+		if (direction == 'v') {
+			// vertical
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					// xx
+				}
+			}
+		} else {
+			// horizontal
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					// xx
+				}
+			}
+		}
+		return seam;
 	}
 
 	/**
@@ -94,9 +146,10 @@ public class SeamCarver {
 	 * @param buggered image.
 	 * @return table of energies (int).
 	 */
-	private int[][] computeEnergy(BufferedImage image) {
+	private int[][] computeEnergy() {
 		// Code
 		// Loops over each pixel and calculates its energy --> table.
+		BufferedImage image = this.getImage();
 		int width = image.getWidth();
 		int height = image.getHeight();
 		int[][] table = new int[width][height];
@@ -109,10 +162,12 @@ public class SeamCarver {
                 int green = (color & 0x0000ff00) >> 8;
                 int blue = (color & 0x000000ff);
 
-                // compute energy of the pixel
+                // compute energy of the pixel.
+                // need to have if/else if/else statements to cover the edge
+                // cases.
                 int energy = 0;
 
-                // add energy to the energy table
+                // add energy to the energy table.
                 table[x][y] = energy
 			}
 		}
@@ -125,9 +180,14 @@ public class SeamCarver {
 	 * @param xx
 	 * @return xx
 	 */
-	private void removeSeam(xx) {
+	private void removeSeam() {
 		// Code
 		// Finds the minimum seam and removes it.
+		// calls findSeam()
+		// calls setNum() = getNum() - 1
+		int[] seam = this.findSeam();
+
+		// removes the seam
 	}
 
 	/**
@@ -141,10 +201,12 @@ public class SeamCarver {
 		// Carves out the desired number of seams from the image. Displays the
 		// new image (without the carved seams).
 
-		while this.getNum() > 0 {
+		while (this.getNum() > 0) {
 			// Code
 			// removeSeam() --> findSeam() --> computeEnergy()
 			// 				--> setNum() = getNum() - 1
+			this.removeSeam(this.getDirection());
+			this.setNum(this.getNum() - 1);
 		}
 
 		// showNew()
