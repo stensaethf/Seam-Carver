@@ -36,222 +36,234 @@ public class SeamCarver {
 	 * @param xx
 	 * @return xx
 	 */
-	public SeamCarver(String filename, Integer seamNumber, String direction) {
-		// Open the input image
-		this.direction = direction;
-        BufferedImage this.image;
-        try {
-            this.image = ImageIO.read(new File(filename));
-        } catch(IOException e) {
-            System.err.println("Can't open " + filename);
-            return;
-        }
+	// public SeamCarver(String filename, Integer seamNumber, String direction) {
+	// 	// Open the input image
+	// 	this.direction = direction;
+ //        try {
+ //            BufferedImage image = ImageIO.read(new File(filename));
+ //        } catch(IOException e) {
+ //            System.err.println("Can't open " + filename);
+ //            return;
+ //        }
 
-        if (seamNumber < 1) {
-        	System.err.println("Can't open " + filename);
-            return;
-        } else {
-        	this.seamNumber = seamNumber;
-        }
+ //        if (seamNumber < 1) {
+ //        	System.err.println("Can't open " + filename);
+ //            return;
+ //        } else {
+ //        	this.seamNumber = seamNumber;
+ //        }
 
-		this.carve()
-	}
+	// 	this.carve();
+	// }
 
-	private void setDirection(String direction) {
-		this.direction = direction;
-	}
+	// private void setDirection(String direction) {
+	// 	this.direction = direction;
+	// }
 
-	private String getDirection() {
-		return this.direction;
-	}
+	// private String getDirection() {
+	// 	return this.direction;
+	// }
 
-	/**
-	 * setImate() sets the image of the SeamCarver object.
-	 *
-	 * @param image (BufferedImage).
-	 * @return n/a.
-	 */
-	private void setImage(BufferedImage image) {
-		this.image = image;
-	}
+	// /**
+	//  * setImate() sets the image of the SeamCarver object.
+	//  *
+	//  * @param image (BufferedImage).
+	//  * @return n/a.
+	//  */
+	// private void setImage(BufferedImage image) {
+	// 	this.image = image;
+	// }
 
-	/**
-	 * getImate() returns the image of the SeamCarver object.
-	 *
-	 * @param n/a.
-	 * @return image (BufferedImage).
-	 */
-	private BufferedImage getImage() {
-		return this.image;
-	}
+	// /**
+	//  * getImate() returns the image of the SeamCarver object.
+	//  *
+	//  * @param n/a.
+	//  * @return image (BufferedImage).
+	//  */
+	// private BufferedImage getImage() {
+	// 	return this.image;
+	// }
 
-	/**
-	 * getNum() returns the seamNumber of the SeamCarver object.
-	 *
-	 * @param n/a.
-	 * @return seamNumber (int).
-	 */
-	private Integer getNum() {
-		return this.seamNumber;
-	}
+	// /**
+	//  * getNum() returns the seamNumber of the SeamCarver object.
+	//  *
+	//  * @param n/a.
+	//  * @return seamNumber (int).
+	//  */
+	// private Integer getNum() {
+	// 	return this.seamNumber;
+	// }
 
-	/**
-	 * setNum() sets the seamNumber of the SeamCarver object.
-	 *
-	 * @param new seamNumber (int).
-	 * @return n/a.
-	 */
-	private void setNum(Integer newSeamNumber) {
-		this.seamNumber = newSeamNumber;
-	}
+	// /**
+	//  * setNum() sets the seamNumber of the SeamCarver object.
+	//  *
+	//  * @param new seamNumber (int).
+	//  * @return n/a.
+	//  */
+	// private void setNum(Integer newSeamNumber) {
+	// 	this.seamNumber = newSeamNumber;
+	// }
 
-	/**
-	 * findSeam() xx
-	 *
-	 * @param xx
-	 * @return xx
-	 */
-	private Integer[] findSeam() { // specift the list later.
-		// Code
-		// Finds the minimum seam by looking at the energy table.
-		String direction = this.getDirection();
-		BufferedImage image = this.getImage();
-		int width = image.getWidth();
-		int height = image.getHeight();
-		int[][] energy_table = this.computeEnergy();
-		int[] seam = new int[];
+	// /**
+	//  * findSeam() xx
+	//  *
+	//  * @param xx
+	//  * @return xx
+	//  */
+	// private Integer[] findSeam() { // specift the list later.
+	// 	// Code
+	// 	// Finds the minimum seam by looking at the energy table.
+	// 	String direction = this.getDirection();
+	// 	BufferedImage image = this.getImage();
+	// 	int width = image.getWidth();
+	// 	int height = image.getHeight();
+	// 	int[][] energy_table = this.computeEnergy();
 
-		if (direction == 'v') {
-			// vertical
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					// xx
-				}
-			}
-		} else {
-			// horizontal
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					// xx
-				}
-			}
-		}
-		return seam;
-	}
+	// 	if (direction == 'v') {
+	// 		int[] seam = new int[height];
+	// 		// vertical
+	// 		for (int y = 0; y < height; y++) {
+	// 			for (int x = 0; x < width; x++) {
+	// 				// xx
+	// 			}
+	// 		}
+	// 	} else {
+	// 		int[] seam = new int[width];
+	// 		// horizontal
+	// 		for (int x = 0; x < width; x++) {
+	// 			for (int y = 0; y < height; y++) {
+	// 				// xx
+	// 			}
+	// 		}
+	// 	}
+	// 	return seam;
+	// }
 
-	/**
-	 * computeEnergy() takes an image and computes the energy table for that
-	 * image.
-	 *
-	 * @param buggered image.
-	 * @return table of energies (int).
-	 */
-	private int[][] computeEnergy() {
-		// Code
-		// Loops over each pixel and calculates its energy --> table.
-		BufferedImage image = this.getImage();
-		int width = image.getWidth();
-		int height = image.getHeight();
-		int[][] table = new int[width][height];
+	// /**
+	//  * computeEnergy() takes an image and computes the energy table for that
+	//  * image.
+	//  *
+	//  * @param buggered image.
+	//  * @return table of energies (int).
+	//  */
+	// private int[][] computeEnergy() {
+	// 	// Code
+	// 	// Loops over each pixel and calculates its energy --> table.
+	// 	BufferedImage image = this.getImage();
+	// 	int width = image.getWidth();
+	// 	int height = image.getHeight();
+	// 	int[][] table = new int[width][height];
 
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				int color = image.getRGB(x, y);
-                int alpha = (color & 0xff000000) >> 24;
-                int red = (color & 0x00ff0000) >> 16;
-                int green = (color & 0x0000ff00) >> 8;
-                int blue = (color & 0x000000ff);
+	// 	for (int y = 0; y < height; y++) {
+	// 		for (int x = 0; x < width; x++) {
+	// 			int color = image.getRGB(x, y);
+ //                int alpha = (color & 0xff000000) >> 24;
+ //                int red = (color & 0x00ff0000) >> 16;
+ //                int green = (color & 0x0000ff00) >> 8;
+ //                int blue = (color & 0x000000ff);
 
-                // compute energy of the pixel.
-                // need to have if/else if/else statements to cover the edge
-                // cases.
-                int energy = 0;
+ //                // compute energy of the pixel.
+ //                // need to have if/else if/else statements to cover the edge
+ //                // cases.
+ //                int energy = 0;
 
-                // add energy to the energy table.
-                table[x][y] = energy
-			}
-		}
-		return table;
-	}
+ //                // add energy to the energy table.
+ //                table[x][y] = energy;
+	// 		}
+	// 	}
+	// 	return table;
+	// }
 
-	/**
-	 * removeSeam() xx
-	 *
-	 * @param xx
-	 * @return xx
-	 */
-	private void removeSeam() {
-		// Code
-		// Finds the minimum seam and removes it.
-		// calls findSeam()
-		// calls setNum() = getNum() - 1
-		int[] seam = this.findSeam();
+	// /**
+	//  * removeSeam() xx
+	//  *
+	//  * @param xx
+	//  * @return xx
+	//  */
+	// private void removeSeam() {
+	// 	// Code
+	// 	// Finds the minimum seam and removes it.
+	// 	// calls findSeam()
+	// 	// calls setNum() = getNum() - 1
+	// 	int[] seam = this.findSeam();
 
-		// removes the seam
-	}
+	// 	// removes the seam
+	// }
 
-	/**
-	 * carve() xx
-	 *
-	 * @param xx
-	 * @return xx
-	 */
-	private void carve() {
-		// Code
-		// Carves out the desired number of seams from the image. Displays the
-		// new image (without the carved seams).
+	// /**
+	//  * carve() xx
+	//  *
+	//  * @param xx
+	//  * @return xx
+	//  */
+	// private void carve() {
+	// 	// Code
+	// 	// Carves out the desired number of seams from the image. Displays the
+	// 	// new image (without the carved seams).
 
-		while (this.getNum() > 0) {
-			// Code
-			// removeSeam() --> findSeam() --> computeEnergy()
-			// 				--> setNum() = getNum() - 1
-			this.removeSeam(this.getDirection());
-			this.setNum(this.getNum() - 1);
-		}
+	// 	while (this.getNum() > 0) {
+	// 		// Code
+	// 		// removeSeam() --> findSeam() --> computeEnergy()
+	// 		// 				--> setNum() = getNum() - 1
+	// 		this.removeSeam(this.getDirection());
+	// 		this.setNum(this.getNum() - 1);
+	// 	}
 
-		// showNew()
-	}
+	// 	// showNew()
+	// }
 	
-	/**
-	 * showNew() opens the image without the seams that were removed.
-	 *
-	 * @param xx
-	 * @return n/a.
-	 */
-	private void showNew(xx) {
-		// Code
-		// Displays the new image.
-	}
+	// /**
+	//  * showNew() opens the image without the seams that were removed.
+	//  *
+	//  * @param xx
+	//  * @return n/a.
+	//  */
+	// private void showNew() {
+	// 	// Code
+	// 	// Displays the new image.
+	// }
 
-	/**
-	 * showSeams() opens the image with the removed seams highlighted.
-	 *
-	 * @param xx
-	 * @return n/a.
-	 */
-	private void showSeams(xx) {
-		// Code
-		// Shows which seams have been removed.
-	}
+	// /**
+	//  * showSeams() opens the image with the removed seams highlighted.
+	//  *
+	//  * @param xx
+	//  * @return n/a.
+	//  */
+	// private void showSeams() {
+	// 	// Code
+	// 	// Shows which seams have been removed.
+	// }
 
-	public static void main(String[] args) throws Exception {
-		// if not 2 args given (file and carve number)
-		// 	error
-		// 	exit
-		if (args.length != 2) {
-			System.out.println('Error, incorrect number of arguments provided.');
-			System.out.println('Usage: $ SeamCarver <filename> <number of seams (int)>')
-			System.exit(1);
+	public static void main(String[] args) {
+		System.out.println("MAIN FUNCTION");
+
+		boolean showImages = false;
+		String imageFilePath = null;
+		String outputImageFilePath = null;
+		for (String arg: args) {
+			if (arg.equals("--show")) {
+				showImages = true;
+			} else if (imageFilePath == null) {
+				imageFilePath = arg;
+			} else if (outputImageFilePath == null) {
+				imageFilePath = arg;
+			}
 		}
 
-		// carve the given number of seams on the provided image 
-		// 	(might need to check for file extentions to ensure it is an image)
-		try {
-			SeamCarver sc = new SeamCarver(args[0], args[1])
-		} catch {
-			System.out.println('Error, incorrect arguments provided.');
-			System.out.println('Usage: $ SeamCarver <filename> <number of seams (int)>')
-			System.exit(1);
-		}
+		if (imageFilePath == null && outputImageFilePath == null) {
+            System.err.println("Usage: java ImageExample inputImage outputImage [--show]");
+            return;
+        }
+
+        // Open the input image
+        BufferedImage image;
+        try {
+            image = ImageIO.read(new File(imageFilePath));
+        } catch(IOException e) {
+            System.err.println("Can't open " + imageFilePath);
+            return;
+        }
+
+        // code
 	}
 }
