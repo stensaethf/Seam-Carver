@@ -102,16 +102,28 @@ public class SeamCarver {
 	private static int[][] findSeam(int[][] energyTable, String direction) {
 		// Come back and complete this, after removeSeam --> more interesting...
 		int[][] seam;
+		int width = energyTable.length; // might have these two opposite
+		int height = energyTable[0].length; // might have these two opposite.
 		if (direction.equals("vertical")) {
 			// vertical seam.
 			seam = new int[energyTable[0].length][2];
 
-			// code
+			// Loops over the energy table and finds the lowest energy path.
+			for (int y = 0; y < height; y++) {
+	            for (int x = 0; x < width; x++) {
+	            	// code
+	            }
+	        }
 		} else {
 			// horizontal seam.
 			seam = new int[energyTable.length][2];
 
-			// code
+			// Loops over the energy table and finds the lowest energy path.
+			for (int x = 0; x < width; x++) {
+	            for (int y = 0; y < height; y++) {
+	            	// code
+	            }
+	        }
 		}
 
 		return seam;
@@ -133,6 +145,7 @@ public class SeamCarver {
 		// Do not copy over the pixels in the seam.
 		for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
+            	// Simple loop to check if the pixel is part of the seam or not.
             	boolean contains = false;
             	for (int z = 0; z < seam.length; z++) {
             		if ((seam[z][0] == x) && (seam[z][1] == y)) {
