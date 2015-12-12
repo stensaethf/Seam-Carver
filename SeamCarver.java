@@ -131,6 +131,21 @@ public class SeamCarver {
 
 		// Loops over ever pixel in the original image and copies them over.
 		// Do not copy over the pixels in the seam.
+		for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+            	boolean contains = false;
+            	for (int z = 0; z < seam.length; z++) {
+            		if ((seam[z][0] == x) && (seam[z][1] == y)) {
+            			contains = true;
+            		}
+            	}
+
+            	if (!contains) {
+            		// pixel not part of the seam, so we add it.
+            		newImage.setRGB(x, y, image.getRGB(x, y));
+            	}
+            }
+        }
 
 		return newImage;
 	}
