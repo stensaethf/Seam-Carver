@@ -1,7 +1,7 @@
 /**
  * SeamCarver.java
  * Frederik Roenn Stensaeth
- * Date: 12.09.15
+ * Date: 12.11.15
  *
  * Java program to perform content-aware image resizing using seam carving.
  **/
@@ -92,7 +92,8 @@ public class SeamCarver {
                 int gray = (red + green + blue) / 3;
 
                 // compute the energy and store it in the table.
-                energyTable[x][y] = gray; // redo this later with the actual method.
+                // make into fraction.
+                energyTable[x][y] = gray / 255; // redo this later with the actual method.
             }
         }
 
