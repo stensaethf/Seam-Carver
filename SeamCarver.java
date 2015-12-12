@@ -23,6 +23,7 @@ public class SeamCarver {
 		String imageFilePath = null;
 		String outputImageFilePath = null;
 		Integer num  = null;
+		String direction = null;
 		for (String arg: args) {
 			if (arg.equals("--show")) {
 				showImages = true;
@@ -32,11 +33,13 @@ public class SeamCarver {
 				imageFilePath = arg;
 			} else if (num == null) {
 				num = Integer.parseInt(arg);
+			} else if (direction == null) {
+				direction = arg;
 			}
 		}
 
 		if (imageFilePath == null && outputImageFilePath == null) {
-            System.err.println("Usage: java ImageExample inputImage outputImage numOfSeams [--show]");
+            System.err.println("Usage: java ImageExample inputImage outputImage numOfSeams direction [--show]");
             return;
         }
 
@@ -51,7 +54,7 @@ public class SeamCarver {
 
         // Get the new image w/o one seam.
         while (num > 0) {
-        	image = carveSeam(image);
+        	image = carveSeam(image, direction);
 
         	num--;
         }
@@ -59,7 +62,7 @@ public class SeamCarver {
         // More code
 	}
 
-	private static BufferedImage carveSeam(BufferedImage image) {
+	private static BufferedImage carveSeam(BufferedImage image, String direction) {
 		// We need to:
 		// computeEnergy
 		// findSeam
@@ -67,8 +70,8 @@ public class SeamCarver {
 
 		BufferedImage newImage = null;
 		int[][] energyTable = computeEnergy(image);
-		int[][] seam = findSeam(image, energyTable);
-		newImage = removeSeam(image, seam);
+		int[][] seam = findSeam(energyTable, direction);
+		newImage = removeSeam(image, seam, direction);
 
 		return newImage;
 	}
@@ -96,15 +99,39 @@ public class SeamCarver {
 		return energyTable;
 	}
 
-	private static int[][] findSeam(BufferedImage image, int[][] energyTable) {
-		// do stuff
-		int[][] seam = null;
+	private static int[][] findSeam(int[][] energyTable, String direction) {
+		// Come back and complete this, after removeSeam --> more interesting...
+		int[][] seam;
+		if (direction.equals("vertical")) {
+			// vertical seam.
+			seam = new int[energyTable[0].length][2];
+
+			// code
+		} else {
+			// horizontal seam.
+			seam = new int[energyTable.length][2];
+
+			// code
+		}
+
 		return seam;
 	}
 
-	private static BufferedImage removeSeam(BufferedImage image, int[][] seam) {
-		// do stuff
-		BufferedImage newImage = null;
+	private static BufferedImage removeSeam(BufferedImage image, int[][] seam, String direction) {
+		BufferedImage newImage;
+		int width = image.getWidth();
+        int height = image.getHeight();
+		if (direction.equals("vertical")) {
+			// vertical seam.
+			newImage = new BufferedImage(width - 1, height, BufferedImage.TYPE_INT_ARGB);
+		} else {
+			// horizontal seam.
+			newImage = new BufferedImage(width, height - 1, BufferedImage.TYPE_INT_ARGB);
+		}
+
+		// Loops over ever pixel in the original image and copies them over.
+		// Do not copy over the pixels in the seam.
+
 		return newImage;
 	}
 }
