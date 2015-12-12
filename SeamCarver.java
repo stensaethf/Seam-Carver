@@ -74,8 +74,25 @@ public class SeamCarver {
 	}
 
 	private static int[][] computeEnergy(BufferedImage image) {
-		// do stuff
-		int[][] energyTable = null;
+		int width = image.getWidth();
+        int height = image.getHeight();
+		int[][] energyTable = new int[width][height];
+
+		// Loop over every pixel in the image and compute its energy.
+		for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int color = image.getRGB(x, y);
+                int alpha = (color & 0xff000000) >> 24;
+                int red = (color & 0x00ff0000) >> 16;
+                int green = (color & 0x0000ff00) >> 8;
+                int blue = (color & 0x000000ff);
+                int gray = (red + green + blue) / 3;
+
+                // compute the energy and store it in the table.
+                energyTable[x][y] = gray; // redo this later with the actual method.
+            }
+        }
+
 		return energyTable;
 	}
 
