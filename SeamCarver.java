@@ -124,7 +124,7 @@ public class SeamCarver {
 
                 // compute the energy and store it in the table.
                 // make into fraction.
-                energyTable[x][y] = gray / 255; // redo this later with the actual method.
+                energyTable[x][y] = gray / 255.0; // redo this later with the actual method.
             }
         }
 
@@ -136,6 +136,8 @@ public class SeamCarver {
 		int[][] seam;
 		int width = energyTable.length; // might have these two opposite
 		int height = energyTable[0].length; // might have these two opposite.
+		// seamDynamic is the table we will use for dynamic programming.
+		int[][] seamDynamic = new int[width][height]
 		if (direction.equals("vertical")) {
 			// vertical seam.
 			seam = new int[energyTable[0].length][2];
@@ -143,7 +145,12 @@ public class SeamCarver {
 			// Loops over the energy table and finds the lowest energy path.
 			for (int y = 0; y < height; y++) {
 	            for (int x = 0; x < width; x++) {
-	            	// code
+	            	if (y == 0) {
+	            		seamDynamic[0][x] = energyTable[0][x];
+	            	} else {
+	            		// every other row. 
+	            		// need to special case the sides.
+	            	}
 	            }
 	        }
 		} else {
@@ -153,7 +160,12 @@ public class SeamCarver {
 			// Loops over the energy table and finds the lowest energy path.
 			for (int x = 0; x < width; x++) {
 	            for (int y = 0; y < height; y++) {
-	            	// code
+	            	if (x == 0) {
+	            		seamDynamic[y][0] = energyTable[y][0];
+	            	} else {
+	            		// every other column. 
+	            		// need to special case the top/bottom.
+	            	}
 	            }
 	        }
 		}
