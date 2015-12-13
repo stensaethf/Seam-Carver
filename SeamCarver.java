@@ -41,7 +41,7 @@ public class SeamCarver {
 		if (imageFilePath == null && outputImageFilePath == null) {
             System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams direction [--show]");
             return;
-        } else if (!direction.equals('vertical') && !direction.equals('horizontal')) {
+        } else if (!direction.equals("vertical") && !direction.equals("horizontal")) {
         	System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams direction [--show]");
             System.err.println("Direction needs to be either 'horizontal' or 'vertical'.");
             return;
