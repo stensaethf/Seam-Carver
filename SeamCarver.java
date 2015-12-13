@@ -138,6 +138,7 @@ public class SeamCarver {
 		int height = energyTable[0].length; // might have these two opposite.
 		// seamDynamic is the table we will use for dynamic programming.
 		double[][] seamDynamic = new double[width][height];
+		int[][] backtracker = new int[width][height];
 		double minimum;
 		if (direction.equals("vertical")) {
 			// vertical seam.
@@ -157,8 +158,10 @@ public class SeamCarver {
 
 	            			if (minimum == seamDynamic[x][y - 1]) {
 	            				// add backtracker.
+	            				backtracker[x][y] = 1;
 	            			} else { // x + 1
 	            				// add backtracker.
+	            				backtracker[x][y] = 2;
 	            			}
 	            		} else if (x == (width - 1)) {
 	       					minimum = Math.min(seamDynamic[x][y - 1], seamDynamic[x - 1][y - 1]);
@@ -166,8 +169,10 @@ public class SeamCarver {
 
 	            			if (minimum == seamDynamic[x][y - 1]) {
 	            				// add backtracker.
+	            				backtracker[x][y] = 1;
 	            			} else { // x - 1
 	            				// add backtracker.
+	            				backtracker[x][y] = 0;
 	            			}
 	            		} else {
 	            			minimum = Math.min(seamDynamic[x - 1][y - 1], Math.min(seamDynamic[x][y - 1], seamDynamic[x + 1][y - 1]));
@@ -175,10 +180,13 @@ public class SeamCarver {
 
 	            			if (minimum == seamDynamic[x - 1][y - 1]) {
 	            				// add backtracker.
+	            				backtracker[x][y] = 0;
 	            			} else if (minimum == seamDynamic[x][y - 1]) {
 	            				// add backtracker.
+	            				backtracker[x][y] = 1;
 	            			} else { // x + 1
 	            				// add backtracker.
+	            				backtracker[x][y] = 2;
 	            			}
 	            		}
 	            		seamDynamic[x][y] = energyTable[x][y] + minimum;
@@ -206,8 +214,10 @@ public class SeamCarver {
 
 	            			if (minimum == seamDynamic[x - 1][y]) {
 	            				// add backtracker.
+	            				backtracker[x][y] = 1;
 	            			} else { // y + 1
 	            				// add backtracker.
+	            				backtracker[x][y] = 2;
 	            			}
 	            		} else if (y == (height - 1)) {
 	            			minimum = Math.min(seamDynamic[x - 1][y], seamDynamic[x - 1][y - 1]);
@@ -215,8 +225,10 @@ public class SeamCarver {
 
 	            			if (minimum == seamDynamic[x - 1][y]) {
 	            				// add backtracker.
+	            				backtracker[x][y] = 1;
 	            			} else { // y - 1
 	            				// add backtracker.
+	            				backtracker[x][y] = 0;
 	            			}
 	            		} else {
 	            			minimum = Math.min(seamDynamic[x - 1][y - 1], Math.min(seamDynamic[x - 1][y], seamDynamic[x - 1][y + 1]));
@@ -224,10 +236,13 @@ public class SeamCarver {
 
 	            			if (minimum == seamDynamic[x - 1][y - 1]) {
 	            				// add backtracker.
+	            				backtracker[x][y] = 0;
 	            			} else if (minimum == seamDynamic[x - 1][y]) {
 	            				// add backtracker.
+	            				backtracker[x][y] = 1;
 	            			} else { // y + 1
 	            				// add backtracker.
+	            				backtracker[x][y] = 2;
 	            			}
 	            		}
 	            		seamDynamic[x][y] = energyTable[x][y] + minimum;
