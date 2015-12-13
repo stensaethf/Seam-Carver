@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.File;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import javax.swing.JFrame;
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 /**
  * SeamCarver() xx
@@ -24,6 +28,7 @@ public class SeamCarver {
 		String outputImageFilePath = null;
 		Integer num  = null;
 		String direction = null;
+		String outputFormatName = ""; // e.g. "png" or "jpg"
 		for (String arg: args) {
 			if (arg.equals("--show")) {
 				showImages = true;
@@ -31,6 +36,10 @@ public class SeamCarver {
 				imageFilePath = arg;
 			} else if (outputImageFilePath == null) {
 				outputImageFilePath = arg;
+				int index = outputImageFilePath.lastIndexOf('.');
+                if (index >= 0) {
+                    outputFormatName = outputImageFilePath.substring(index + 1);
+                }
 			} else if (num == null) {
 				num = Integer.parseInt(arg);
 			} else if (direction == null) {
@@ -61,13 +70,27 @@ public class SeamCarver {
         }
 
         // Get the new image w/o one seam.
+        BufferedImage newImage = image;
         while (num > 0) {
-        	image = carveSeam(image, direction);
+        	newImage = carveSeam(newImage, direction);
 
         	num--;
         }
 
         // More code
+        try {
+            File outputfile = new File(outputImageFilePath);
+            ImageIO.write(newImage, outputFormatName, outputfile);
+        } catch (IOException e) {
+            System.err.println("Trouble saving " + outputImageFilePath);
+            return;
+        }
+
+        // Show the before and after images
+        if (showImages) {
+            showImage(image);
+            showImage(newImage);
+        }
 	}
 
 	private static BufferedImage carveSeam(BufferedImage image, String direction) {
@@ -171,6 +194,14 @@ public class SeamCarver {
 
 		return newImage;
 	}
+
+	private static void showImage(BufferedImage image) {
+        JFrame frame = new JFrame();
+        frame.getContentPane().setLayout(new FlowLayout());
+        frame.getContentPane().add(new JLabel(new ImageIcon(image)));
+        frame.pack();
+        frame.setVisible(true);
+    }
 }
 
 
