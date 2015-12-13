@@ -148,7 +148,8 @@ public class SeamCarver {
 			for (int y = 0; y < height; y++) {
 	            for (int x = 0; x < width; x++) {
 	            	if (y == 0) {
-	            		seamDynamic[x][0] = energyTable[x][0];
+	            		seamDynamic[x][y] = energyTable[x][y];
+	            		backtracker[x][y] = null;
 	            	} else {
 	            		// every other row.
 	            		// need to special case the sides.
@@ -195,7 +196,10 @@ public class SeamCarver {
 	        }
 
 	        // now that we have computed the paths, we need to backtrace the minimum one.
-	        // code
+	        // 0 --> x - 1.
+	        // 1 --> x.
+	        // 2 --> x + 1.
+	        // code: loop until null.
 		} else {
 			// horizontal seam.
 			seam = new int[energyTable.length][2];
@@ -204,7 +208,8 @@ public class SeamCarver {
 			for (int x = 0; x < width; x++) {
 	            for (int y = 0; y < height; y++) {
 	            	if (x == 0) {
-	            		seamDynamic[0][y] = energyTable[0][y];
+	            		seamDynamic[x][y] = energyTable[x][y];
+	            		backtracker[x][y] = null;
 	            	} else {
 	            		// every other column.
 	            		// need to special case the top/bottom.
@@ -251,7 +256,10 @@ public class SeamCarver {
 	        }
 
 	        // now that we have computed the paths, we need to backtrace the minimum one.
-	        // code
+	        // 0 --> y - 1.
+	        // 1 --> y.
+	        // 2 --> y + 1.
+	        // code: loop until null.
 		}
 
 		return seam;
