@@ -30,7 +30,7 @@ public class SeamCarver {
 			} else if (imageFilePath == null) {
 				imageFilePath = arg;
 			} else if (outputImageFilePath == null) {
-				imageFilePath = arg;
+				outputImageFilePath = arg;
 			} else if (num == null) {
 				num = Integer.parseInt(arg);
 			} else if (direction == null) {
@@ -39,8 +39,16 @@ public class SeamCarver {
 		}
 
 		if (imageFilePath == null && outputImageFilePath == null) {
-            System.err.println("Usage: java ImageExample inputImage outputImage numOfSeams direction [--show]");
+            System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams direction [--show]");
             return;
+        } else if (!direction.equals('vertical') && !direction.equals('horizontal')) {
+        	System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams direction [--show]");
+            System.err.println("Direction needs to be either 'horizontal' or 'vertical'.");
+            return;
+        } else if (num <= 0) {
+        	System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams direction [--show]");
+        	System.err.println("numOfSeams needs to be a positive integer.");
+        	return;
         }
 
         // Open the input image
