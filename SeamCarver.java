@@ -175,22 +175,57 @@ public class SeamCarver {
 
 		// Loops over ever pixel in the original image and copies them over.
 		// Do not copy over the pixels in the seam.
-		for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-            	// Simple loop to check if the pixel is part of the seam or not.
-            	boolean contains = false;
-            	for (int z = 0; z < seam.length; z++) {
-            		if ((seam[z][0] == x) && (seam[z][1] == y)) {
-            			contains = true;
-            		}
-            	}
+		if (direction.equals("vertical")) {
+			// vertical seam.
+			for (int y = 0; y < height; y++) {
+				boolean shift = false;
+	            for (int x = 0; x < width; x++) {
+	            	// Simple loop to check if the pixel is part of the seam or not.
+	            	boolean inSeam = false;
+	            	for (int z = 0; z < seam.length; z++) {
+	            		if ((seam[z][0] == x) && (seam[z][1] == y)) {
+	            			inSeam = true;
+	            			shift = true;
+	            		}
+	            	}
 
-            	if (!contains) {
-            		// pixel not part of the seam, so we add it.
-            		newImage.setRGB(x, y, image.getRGB(x, y));
-            	}
-            }
-        }
+	            	// this does not work, as we might need to put it at either x-1 or y-1.
+	            	if (!inSeam) {
+	            		// pixel not part of the seam, so we add it.
+	            		if (shift) {
+	            			newImage.setRGB(x - 1, y, image.getRGB(x, y));
+	            		} else {
+		            		newImage.setRGB(x, y, image.getRGB(x, y));
+		            	}
+	            	}
+	            }
+	        }
+	    } else {
+	    	// horizontal seam.
+	    	for (int x = 0; x < width; x++) {
+				boolean shift = false;
+	            for (int y = 0; y < height; y++) {
+	            	// Simple loop to check if the pixel is part of the seam or not.
+	            	boolean inSeam = false;
+	            	for (int z = 0; z < seam.length; z++) {
+	            		if ((seam[z][0] == x) && (seam[z][1] == y)) {
+	            			inSeam = true;
+	            			shift = true;
+	            		}
+	            	}
+
+	            	// this does not work, as we might need to put it at either x-1 or y-1.
+	            	if (!inSeam) {
+	            		// pixel not part of the seam, so we add it.
+	            		if (shift) {
+	            			newImage.setRGB(x, y - 1, image.getRGB(x, y));
+	            		} else {
+		            		newImage.setRGB(x, y, image.getRGB(x, y));
+		            	}
+	            	}
+	            }
+	        }
+	    }
 
 		return newImage;
 	}
