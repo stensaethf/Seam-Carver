@@ -77,7 +77,7 @@ public class SeamCarver {
         	num--;
         }
 
-        // More code
+        // Create the new image file.
         try {
             File outputfile = new File(outputImageFilePath);
             ImageIO.write(newImage, outputFormatName, outputfile);
@@ -100,17 +100,17 @@ public class SeamCarver {
 		// removeSeam aka construct new image w/o the seam.
 
 		BufferedImage newImage = null;
-		int[][] energyTable = computeEnergy(image);
+		double[][] energyTable = computeEnergy(image);
 		int[][] seam = findSeam(energyTable, direction);
 		newImage = removeSeam(image, seam, direction);
 
 		return newImage;
 	}
 
-	private static int[][] computeEnergy(BufferedImage image) {
+	private static double[][] computeEnergy(BufferedImage image) {
 		int width = image.getWidth();
         int height = image.getHeight();
-		int[][] energyTable = new int[width][height];
+		double[][] energyTable = new double[width][height];
 
 		// Loop over every pixel in the image and compute its energy.
 		for (int y = 0; y < height; y++) {
@@ -131,14 +131,14 @@ public class SeamCarver {
 		return energyTable;
 	}
 
-	private static int[][] findSeam(int[][] energyTable, String direction) {
+	private static int[][] findSeam(double[][] energyTable, String direction) {
 		// Come back and complete this, after removeSeam --> more interesting...
 		int[][] seam;
 		int width = energyTable.length; // might have these two opposite
 		int height = energyTable[0].length; // might have these two opposite.
 		// seamDynamic is the table we will use for dynamic programming.
-		int[][] seamDynamic = new int[width][height];
-		int minimum;
+		double[][] seamDynamic = new double[width][height];
+		double minimum;
 		if (direction.equals("vertical")) {
 			// vertical seam.
 			seam = new int[energyTable[0].length][2];
@@ -187,6 +187,7 @@ public class SeamCarver {
 	        }
 
 	        // now that we have computed the paths, we need to backtrace the minimum one.
+	        // code
 		} else {
 			// horizontal seam.
 			seam = new int[energyTable.length][2];
@@ -235,6 +236,7 @@ public class SeamCarver {
 	        }
 
 	        // now that we have computed the paths, we need to backtrace the minimum one.
+	        // code
 		}
 
 		return seam;
