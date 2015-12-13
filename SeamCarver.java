@@ -146,13 +146,45 @@ public class SeamCarver {
 			for (int y = 0; y < height; y++) {
 	            for (int x = 0; x < width; x++) {
 	            	if (y == 0) {
-	            		seamDynamic[0][x] = energyTable[0][x];
+	            		seamDynamic[x][0] = energyTable[x][0];
 	            	} else {
-	            		// every other row. 
+	            		// every other row.
 	            		// need to special case the sides.
+	            		if (x == 0) {
+	            			minimum = Math.min(seamDynamic[x][y - 1], seamDynamic[x + 1][y - 1]);
+	            			seamDynamic[x][y] = energyTable[x][y] + minimum;
+
+	            			if (minimum == seamDynamic[x][y - 1]) {
+	            				// add backtracker.
+	            			} else { // x + 1
+	            				// add backtracker.
+	            			}
+	            		} else if (x == (width - 1)) {
+	       					minimum = Math.min(seamDynamic[x][y - 1], seamDynamic[x - 1][y - 1]);
+	            			seamDynamic[x][y] = energyTable[x][y] + minimum;
+
+	            			if (minimum == seamDynamic[x][y - 1]) {
+	            				// add backtracker.
+	            			} else { // x - 1
+	            				// add backtracker.
+	            			}
+	            		} else {
+	            			minimum = Math.min(seamDynamic[x - 1][y - 1], seamDynamic[x][y - 1], seamDynamic[x + 1][y - 1]);
+	            			seamDynamic[x][y] = energyTable[x][y] + minimum;
+
+	            			if (minimum == seamDynamic[x - 1][y - 1]) {
+	            				// add backtracker.
+	            			} else if (minimum == seamDynamic[x][y - 1]) {
+	            				// add backtracker.
+	            			} else { // x + 1
+	            				// add backtracker.
+	            			}
+	            		}
 	            	}
 	            }
 	        }
+
+	        // now that we have computed the paths, we need to backtrace the minimum one.
 		} else {
 			// horizontal seam.
 			seam = new int[energyTable.length][2];
@@ -161,13 +193,46 @@ public class SeamCarver {
 			for (int x = 0; x < width; x++) {
 	            for (int y = 0; y < height; y++) {
 	            	if (x == 0) {
-	            		seamDynamic[y][0] = energyTable[y][0];
+	            		seamDynamic[0][y] = energyTable[0][y];
 	            	} else {
-	            		// every other column. 
+	            		// every other column.
 	            		// need to special case the top/bottom.
+	            		if (y == 0) {
+	            			minimum = Math.min(seamDynamic[x - 1][y], seamDynamic[x - 1][y + 1]);
+	            			seamDynamic[x][y] = energyTable[x][y] + minimum;
+
+	            			if (minimum == seamDynamic[x - 1][y]) {
+	            				// add backtracker.
+	            			} else { // y + 1
+	            				// add backtracker.
+	            			}
+	            		} else if (y == (height - 1)) {
+	            			minimum = Math.min(seamDynamic[x - 1][y], seamDynamic[x - 1][y - 1]);
+	            			seamDynamic[x][y] = energyTable[x][y] + minimum;
+
+	            			if (minimum == seamDynamic[x - 1][y]) {
+	            				// add backtracker.
+	            			} else { // y - 1
+	            				// add backtracker.
+	            			}
+	            		} else {
+	            			// code
+	            			minimum = Math.min(seamDynamic[x - 1][y - 1], seamDynamic[x - 1][y], seamDynamic[x - 1][y + 1]);
+	            			seamDynamic[x][y] = energyTable[x][y] + minimum;
+
+	            			if (minimum == seamDynamic[x - 1][y - 1]) {
+	            				// add backtracker.
+	            			} else if (minimum == seamDynamic[x - 1][y]) {
+	            				// add backtracker.
+	            			} else { // y + 1
+	            				// add backtracker.
+	            			}
+	            		}
 	            	}
 	            }
 	        }
+
+	        // now that we have computed the paths, we need to backtrace the minimum one.
 		}
 
 		return seam;
