@@ -149,7 +149,7 @@ public class SeamCarver {
 	            for (int x = 0; x < width; x++) {
 	            	if (y == 0) {
 	            		seamDynamic[x][y] = energyTable[x][y];
-	            		backtracker[x][y] = null;
+	            		backtracker[x][y] = -1;
 	            	} else {
 	            		// every other row.
 	            		// need to special case the sides.
@@ -200,6 +200,37 @@ public class SeamCarver {
 	        // 1 --> x.
 	        // 2 --> x + 1.
 	        // code: loop until null.
+	        // first we need to find the min at the end.
+	        double min_num = seamDynamic[0][height - 1];
+	        int min_index = 0;
+            for (int x = 0; x < width; x++) {
+            	if (min_index > seamDynamic[x][height - 1]) {
+            		min_index = x;
+            		min_num = seamDynamic[x][height - 1];
+            	}
+            }
+
+            // now that we have the min we need to backtrace it.
+            int y_index = height - 1;
+            int x_index = min_index;
+            seam[x_index][0] = x_index;
+            seam[x_index][1] = y_index;
+            int backtrack;
+            while (y_index > 0) {
+            	backtrack = backtracker[x_index][y_index];
+
+            	if (backtrack == 0) {
+            		x_index = x_index - 1;
+            	} else if (backtrack == 1) {
+            		x_index = x_index;
+            	} else { // = 2
+            		x_index = x_index + 1;
+            	}
+            	y_index = y_index - 1;
+
+            	seam[x_index][0] = x_index;
+	            seam[x_index][1] = y_index;
+            }
 		} else {
 			// horizontal seam.
 			seam = new int[energyTable.length][2];
@@ -209,7 +240,7 @@ public class SeamCarver {
 	            for (int y = 0; y < height; y++) {
 	            	if (x == 0) {
 	            		seamDynamic[x][y] = energyTable[x][y];
-	            		backtracker[x][y] = null;
+	            		backtracker[x][y] = -1;
 	            	} else {
 	            		// every other column.
 	            		// need to special case the top/bottom.
@@ -260,6 +291,37 @@ public class SeamCarver {
 	        // 1 --> y.
 	        // 2 --> y + 1.
 	        // code: loop until null.
+	        // first we need to find the min at the end.
+	        double min_num = seamDynamic[width - 1][0];
+	        int min_index = 0;
+            for (int y = 0; y < height; y++) {
+            	if (min_index > seamDynamic[width - 1][y]) {
+            		min_index = y;
+            		min_num = seamDynamic[width - 1][y];
+            	}
+            }
+
+            // now that we have the min we need to backtrace it.
+            int y_index = height - 1;
+            int x_index = min_index;
+            seam[x_index][0] = x_index;
+            seam[x_index][1] = y_index;
+            int backtrack;
+            while (y_index > 0) {
+            	backtrack = backtracker[x_index][y_index];
+
+            	if (backtrack == 0) {
+            		y_index = y_index - 1;
+            	} else if (backtrack == 1) {
+            		y_index = y_index;
+            	} else { // = 2
+            		y_index = y_index + 1;
+            	}
+            	x_index = x_index - 1;
+
+            	seam[x_index][0] = x_index;
+	            seam[x_index][1] = y_index;
+            }
 		}
 
 		return seam;
