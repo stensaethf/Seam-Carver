@@ -101,7 +101,17 @@ public class SeamCarver {
 
 		BufferedImage newImage = null;
 		double[][] energyTable = computeEnergy(image);
+		// System.out.println("ENERGY TABLE:");
+		// System.out.println(energyTable);
+		// for(double[] rowData: energyTable) {
+		// 	System.out.println(rowData);
+		// }
 		int[][] seam = findSeam(energyTable, direction);
+		// // System.out.println("SEAM:");
+		// // System.out.println(seam);
+		// for(int[] rowData: seam) {
+		// 	System.out.println(rowData);
+		// }
 		newImage = removeSeam(image, seam, direction);
 
 		return newImage;
@@ -354,14 +364,18 @@ public class SeamCarver {
 	            			shift = true;
 	            		}
 	            	}
-
+	            	System.out.println(x);
+	            	System.out.println(y);
+	            	System.out.println(newImage.getWidth());
+	            	System.out.println(newImage.getHeight());
 	            	// this does not work, as we might need to put it at either x-1 or y-1.
 	            	if (!inSeam) {
 	            		// pixel not part of the seam, so we add it.
+	            		int color = image.getRGB(x, y);
 	            		if (shift) {
-	            			newImage.setRGB(x - 1, y, image.getRGB(x, y));
+	            			newImage.setRGB(x - 1, y, color);
 	            		} else {
-		            		newImage.setRGB(x, y, image.getRGB(x, y));
+		            		newImage.setRGB(x, y, color);
 		            	}
 	            	}
 	            }
