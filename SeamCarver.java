@@ -72,9 +72,11 @@ public class SeamCarver {
         // Get the new image w/o one seam.
         BufferedImage newImage = image;
         while (num > 0) {
+        	System.out.println(num);
+
         	newImage = carveSeam(newImage, direction);
 
-        	num--;
+        	num = num - 1;
         }
 
         // Create the new image file.
@@ -240,8 +242,6 @@ public class SeamCarver {
 
             	seam[x_index][0] = x_index;
 	            seam[x_index][1] = y_index;
-	            System.out.println(x_index);
-	            System.out.println(y_index);
             }
 		} else {
 			// horizontal seam.
