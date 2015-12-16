@@ -240,6 +240,8 @@ public class SeamCarver {
 
             	seam[x_index][0] = x_index;
 	            seam[x_index][1] = y_index;
+	            System.out.println(x_index);
+	            System.out.println(y_index);
             }
 		} else {
 			// horizontal seam.
@@ -355,19 +357,26 @@ public class SeamCarver {
 			// vertical seam.
 			for (int y = 0; y < height; y++) {
 				boolean shift = false;
-	            for (int x = 0; x < width; x++) {
+	            for (int x = 0; x < width - 1; x++) {
 	            	// Simple loop to check if the pixel is part of the seam or not.
 	            	boolean inSeam = false;
 	            	for (int z = 0; z < seam.length; z++) {
+	            		// System.out.println(y);
+	            		// System.out.println(x);
+	            		// System.out.println(seam[z][1]);
+	            		// System.out.println(seam[z][0]);
 	            		if ((seam[z][0] == x) && (seam[z][1] == y)) {
 	            			inSeam = true;
 	            			shift = true;
 	            		}
 	            	}
-	            	System.out.println(x);
-	            	System.out.println(y);
-	            	System.out.println(newImage.getWidth());
-	            	System.out.println(newImage.getHeight());
+	            	// if (shift) {
+		            // 	System.out.println("entered!");
+		            // }
+	            	// System.out.println(x);
+	            	// System.out.println(y);
+	            	// System.out.println(newImage.getWidth());
+	            	// System.out.println(newImage.getHeight());
 	            	// this does not work, as we might need to put it at either x-1 or y-1.
 	            	if (!inSeam) {
 	            		// pixel not part of the seam, so we add it.
@@ -384,7 +393,7 @@ public class SeamCarver {
 	    	// horizontal seam.
 	    	for (int x = 0; x < width; x++) {
 				boolean shift = false;
-	            for (int y = 0; y < height; y++) {
+	            for (int y = 0; y < height - 1; y++) {
 	            	// Simple loop to check if the pixel is part of the seam or not.
 	            	boolean inSeam = false;
 	            	for (int z = 0; z < seam.length; z++) {
