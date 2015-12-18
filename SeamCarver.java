@@ -127,44 +127,57 @@ public class SeamCarver {
 		// Loop over every pixel in the image and compute its energy.
 		for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-            	if (x == 0) {
-            		//
-            		if (y == 0) {
-            			//
-            		} else if (y == height - 1) {
-            			//
-            		} else {
-            			//
-            		}
-            	} else if (x == width - 1) {
-            		//
-            		if (y == 0) {
-            			//
-            		} else if (y == height - 1) {
-            			//
-            		} else {
-            			//
-            		}
-            	} else {
-            		//
-            		if (y == 0) {
-            			//
-            		} else if (y == height - 1) {
-            			//
-            		} else {
-            			//
-            		}
-            	}
-                int color = image.getRGB(x, y);
-                int alpha = (color & 0xff000000) >> 24;
-                int red = (color & 0x00ff0000) >> 16;
-                int green = (color & 0x0000ff00) >> 8;
-                int blue = (color & 0x000000ff);
-                int gray = (red + green + blue) / 3;
+            	int x1Pixel;
+            	int x2Pixel;
+            	int y1Pixel;
+            	int y2Pixel;
 
-                // compute the energy and store it in the table.
-                // make into fraction.
-                energyTable[x][y] = gray / 255; // redo this later with the actual method.
+            	if (x == 0) {
+            		// leftmost column
+            		x1Pixel = image.getRGB(x, y);
+            		x2Pixel = image.getRGB(x + 1, y);
+            	} else if (x == width - 1) {
+            		// rightmost column
+            		x1Pixel = image.getRGB(x - 1, y);
+            		x2Pixel = image.getRGB(x, y);
+            	} else {
+            		// middle columns
+            		x1Pixel = image.getRGB(x - 1, y);
+            		x2Pixel = image.getRGB(x + 1, y);
+            	}
+
+            	if (y == 0) {
+	    			// bottom row
+	    			y1Pixel = image.getRGB(x, y);
+	    			y2Pixel = image.getRGB(x, y + 1);
+	    		} else if (y == height - 1) {
+	    			// top row
+	    			y1Pixel = image.getRGB(x, y - 1);
+	    			y2Pixel = image.getRGB(x, y);
+	    		} else {
+	    			// middle rows
+	    			y1Pixel = image.getRGB(x, y - 1);
+	    			y2Pixel = image.getRGB(x, y + 1);
+	    		}
+
+	    		// we now have all the pixels we need, so we find the 
+	    		// differences between them.
+	    		// By doing the bitwise operations we get at each individual
+	    		// part of the color and can compare them. Each expression
+	    		// should be close to 0 if the colors are similar.
+	    		// Colors that are not similar will have a higher value.
+	    		int xRed = Math.abs(((x1Pixel & 0x00ff0000) >> 16) - ((x2Pixel & 0x00ff0000) >> 16));
+	    		int xGreen = Math.abs(((x1Pixel & 0x0000ff00) >> 8) - ((x2Pixel & 0x0000ff00) >> 8));
+	    		int xBlue = Math.abs((x1Pixel & 0x000000ff) - (x2Pixel & 0x000000ff));
+
+	    		int yRed = Math.abs(((y1Pixel & 0x00ff0000) >> 16) - ((y2Pixel & 0x00ff0000) >> 16));
+	    		int yGreen = Math.abs(((y1Pixel & 0x0000ff00) >> 8) - ((y2Pixel & 0x0000ff00) >> 8));
+	    		int yBlue = Math.abs((y1Pixel & 0x000000ff) - (y2Pixel & 0x000000ff));
+
+	    		// We add up all the differences and call that our energy.
+	    		double energy = xRed + xGreen + xBlue + yRed + yGreen + yBlue;
+
+                energyTable[x][y] = energy;
             }
         }
 
