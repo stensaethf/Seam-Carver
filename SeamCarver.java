@@ -257,7 +257,7 @@ public class SeamCarver {
 	        double min_num = seamDynamic[0][height - 1];
 	        int min_index = 0;
             for (int x = 0; x < width; x++) {
-            	if (min_index > seamDynamic[x][height - 1]) {
+            	if (min_num > seamDynamic[x][height - 1]) {
             		min_index = x;
             		min_num = seamDynamic[x][height - 1];
             	}
@@ -352,7 +352,7 @@ public class SeamCarver {
 	        double min_num = seamDynamic[width - 1][0];
 	        int min_index = 0;
             for (int y = 0; y < height; y++) {
-            	if (min_index > seamDynamic[width - 1][y]) {
+            	if (min_num > seamDynamic[width - 1][y]) {
             		min_index = y;
             		min_num = seamDynamic[width - 1][y];
             	}
