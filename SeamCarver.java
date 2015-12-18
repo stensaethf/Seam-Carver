@@ -266,23 +266,27 @@ public class SeamCarver {
             // now that we have the min we need to backtrace it.
             int y_index = height - 1;
             int x_index = min_index;
-            seam[x_index][0] = x_index;
-            seam[x_index][1] = y_index;
+            seam[y_index][0] = x_index;
+            seam[y_index][1] = y_index;
             int backtrack;
             while (y_index > 0) {
             	backtrack = backtracker[x_index][y_index];
 
-            	if (backtrack == 0) {
-            		x_index = x_index - 1;
-            	} else if (backtrack == 1) {
-            		x_index = x_index;
-            	} else { // = 2
-            		x_index = x_index + 1;
-            	}
+            	if (backtrack != -1) {
+	            	if (backtrack == 0) {
+	            		x_index = x_index - 1;
+	            	} else if (backtrack == 1) {
+	            		x_index = x_index;
+	            	} else { // = 2
+	            		x_index = x_index + 1;
+	            	}
+	            } else {
+	            	x_index = x_index;
+	            }
             	y_index = y_index - 1;
 
-            	seam[x_index][0] = x_index;
-	            seam[x_index][1] = y_index;
+            	seam[y_index][0] = x_index;
+	            seam[y_index][1] = y_index;
             }
 		} else {
 			// horizontal seam.
@@ -355,21 +359,25 @@ public class SeamCarver {
             }
 
             // now that we have the min we need to backtrace it.
-            int y_index = height - 1;
-            int x_index = min_index;
+            int y_index = min_index;
+            int x_index = width - 1;
             seam[x_index][0] = x_index;
             seam[x_index][1] = y_index;
             int backtrack;
-            while (y_index > 0) {
+            while (x_index > 0) {
             	backtrack = backtracker[x_index][y_index];
 
-            	if (backtrack == 0) {
-            		y_index = y_index - 1;
-            	} else if (backtrack == 1) {
-            		y_index = y_index;
-            	} else { // = 2
-            		y_index = y_index + 1;
-            	}
+            	if (backtrack != -1) {
+	            	if (backtrack == 0) {
+	            		y_index = y_index - 1;
+	            	} else if (backtrack == 1) {
+	            		y_index = y_index;
+	            	} else { // = 2
+	            		y_index = y_index + 1;
+	            	}
+	            } else {
+	            	y_index = y_index;
+	            }
             	x_index = x_index - 1;
 
             	seam[x_index][0] = x_index;
@@ -398,27 +406,14 @@ public class SeamCarver {
 			// vertical seam.
 			for (int y = 0; y < height; y++) {
 				boolean shift = false;
-	            for (int x = 0; x < width - 1; x++) {
+	            for (int x = 0; x < width; x++) {
 	            	// Simple loop to check if the pixel is part of the seam or not.
 	            	boolean inSeam = false;
-	            	for (int z = 0; z < seam.length; z++) {
-	            		// System.out.println(y);
-	            		// System.out.println(x);
-	            		// System.out.println(seam[z][1]);
-	            		// System.out.println(seam[z][0]);
-	            		if ((seam[z][0] == x) && (seam[z][1] == y)) {
-	            			inSeam = true;
-	            			shift = true;
-	            		}
-	            	}
-	            	// if (shift) {
-		            // 	System.out.println("entered!");
-		            // }
-	            	// System.out.println(x);
-	            	// System.out.println(y);
-	            	// System.out.println(newImage.getWidth());
-	            	// System.out.println(newImage.getHeight());
-	            	// this does not work, as we might need to put it at either x-1 or y-1.
+            		if ((seam[y][0] == x) && (seam[y][1] == y)) {
+            			inSeam = true;
+            			shift = true;
+            		}
+
 	            	if (!inSeam) {
 	            		// pixel not part of the seam, so we add it.
 	            		int color = image.getRGB(x, y);
@@ -434,15 +429,13 @@ public class SeamCarver {
 	    	// horizontal seam.
 	    	for (int x = 0; x < width; x++) {
 				boolean shift = false;
-	            for (int y = 0; y < height - 1; y++) {
+	            for (int y = 0; y < height; y++) {
 	            	// Simple loop to check if the pixel is part of the seam or not.
 	            	boolean inSeam = false;
-	            	for (int z = 0; z < seam.length; z++) {
-	            		if ((seam[z][0] == x) && (seam[z][1] == y)) {
-	            			inSeam = true;
-	            			shift = true;
-	            		}
-	            	}
+            		if ((seam[x][0] == x) && (seam[x][1] == y)) {
+            			inSeam = true;
+            			shift = true;
+            		}
 
 	            	// this does not work, as we might need to put it at either x-1 or y-1.
 	            	if (!inSeam) {
