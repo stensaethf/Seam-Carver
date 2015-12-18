@@ -3,7 +3,7 @@ A Java program for content-aware image resizing using seam carving.
 Algorithm: Seam Carving for Content-Aware Image Resizing, Shai Avidan & Ariel Shamir
 
 Usage:
-$ java SeamCarver <originalImage.jpb/png> <newImage.png> <numOfSeams> <seamDirection> [--show]
+$ java SeamCarver \<originalImage.jpb/png\> \<newImage.png\> \<numOfSeams\> \<seamDirection\> [--show]
 
 * originalImage: the image to be resized. Can either be jpg or png.
 * newImage: the desired filename for the resized image. Will be a png file.
