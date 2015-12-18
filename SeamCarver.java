@@ -127,6 +127,34 @@ public class SeamCarver {
 		// Loop over every pixel in the image and compute its energy.
 		for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
+            	if (x == 0) {
+            		//
+            		if (y == 0) {
+            			//
+            		} else if (y == height - 1) {
+            			//
+            		} else {
+            			//
+            		}
+            	} else if (x == width - 1) {
+            		//
+            		if (y == 0) {
+            			//
+            		} else if (y == height - 1) {
+            			//
+            		} else {
+            			//
+            		}
+            	} else {
+            		//
+            		if (y == 0) {
+            			//
+            		} else if (y == height - 1) {
+            			//
+            		} else {
+            			//
+            		}
+            	}
                 int color = image.getRGB(x, y);
                 int alpha = (color & 0xff000000) >> 24;
                 int red = (color & 0x00ff0000) >> 16;
