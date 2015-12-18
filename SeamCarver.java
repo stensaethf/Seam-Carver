@@ -82,7 +82,8 @@ public class SeamCarver {
         // Create the new image file.
         try {
             File outputfile = new File(outputImageFilePath);
-            ImageIO.write(newImage, outputFormatName, outputfile);
+            // ImageIO.write(newImage, outputFormatName, outputfile);
+            ImageIO.write(newImage, "png", outputfile);
         } catch (IOException e) {
             System.err.println("Trouble saving " + outputImageFilePath);
             return;
