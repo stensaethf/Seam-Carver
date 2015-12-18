@@ -1,7 +1,7 @@
 /**
  * SeamCarver.java
  * Frederik Roenn Stensaeth
- * Date: 12.11.15
+ * Date: 12.17.15
  *
  * Java program to perform content-aware image resizing using seam carving.
  **/
@@ -16,10 +16,16 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
 /**
- * SeamCarver() xx
+ * SeamCarver() is a class for content aware image resizing.
+ * Takes arguments from the command line:
+ * - inputImage
+ * - outputImage
+ * - number of seams
+ * - seam direction
+ * - [--show]
  *
- * @param xx
- * @return xx
+ * @param inputImage, outputImage, numOfSeams, seamDirection, [--show]
+ * @return n/a. Stores the resized image as the desired filename.
  */
 public class SeamCarver {
 	public static void main(String[] args) {
@@ -48,14 +54,14 @@ public class SeamCarver {
 		}
 
 		if (imageFilePath == null && outputImageFilePath == null) {
-            System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams direction [--show]");
+            System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams seamDirection [--show]");
             return;
         } else if (!direction.equals("vertical") && !direction.equals("horizontal")) {
-        	System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams direction [--show]");
+        	System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams seamDirection [--show]");
             System.err.println("Direction needs to be either 'horizontal' or 'vertical'.");
             return;
         } else if (num <= 0) {
-        	System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams direction [--show]");
+        	System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams seamDirection [--show]");
         	System.err.println("numOfSeams needs to be a positive integer.");
         	return;
         }
@@ -82,7 +88,6 @@ public class SeamCarver {
         // Create the new image file.
         try {
             File outputfile = new File(outputImageFilePath);
-            // ImageIO.write(newImage, outputFormatName, outputfile);
             ImageIO.write(newImage, "png", outputfile);
         } catch (IOException e) {
             System.err.println("Trouble saving " + outputImageFilePath);
@@ -97,24 +102,10 @@ public class SeamCarver {
 	}
 
 	private static BufferedImage carveSeam(BufferedImage image, String direction) {
-		// We need to:
-		// computeEnergy
-		// findSeam
-		// removeSeam aka construct new image w/o the seam.
-
+		// We need to compute the energy table, find and remove a seam.
 		BufferedImage newImage = null;
 		double[][] energyTable = computeEnergy(image);
-		// System.out.println("ENERGY TABLE:");
-		// System.out.println(energyTable);
-		// for(double[] rowData: energyTable) {
-		// 	System.out.println(rowData);
-		// }
 		int[][] seam = findSeam(energyTable, direction);
-		// // System.out.println("SEAM:");
-		// // System.out.println(seam);
-		// for(int[] rowData: seam) {
-		// 	System.out.println(rowData);
-		// }
 		newImage = removeSeam(image, seam, direction);
 
 		return newImage;
@@ -186,10 +177,9 @@ public class SeamCarver {
 	}
 
 	private static int[][] findSeam(double[][] energyTable, String direction) {
-		// Come back and complete this, after removeSeam --> more interesting...
 		int[][] seam;
-		int width = energyTable.length; // might have these two opposite
-		int height = energyTable[0].length; // might have these two opposite.
+		int width = energyTable.length;
+		int height = energyTable[0].length;
 		// seamDynamic is the table we will use for dynamic programming.
 		double[][] seamDynamic = new double[width][height];
 		int[][] backtracker = new int[width][height];
@@ -209,8 +199,6 @@ public class SeamCarver {
 	            		// need to special case the sides.
 	            		if (x == 0) {
 	            			minimum = Math.min(seamDynamic[x][y - 1], seamDynamic[x + 1][y - 1]);
-	            			// seamDynamic[x][y] = energyTable[x][y] + minimum;
-
 	            			if (minimum == seamDynamic[x][y - 1]) {
 	            				// add backtracker.
 	            				backtracker[x][y] = 1;
@@ -220,8 +208,6 @@ public class SeamCarver {
 	            			}
 	            		} else if (x == (width - 1)) {
 	       					minimum = Math.min(seamDynamic[x][y - 1], seamDynamic[x - 1][y - 1]);
-	            			// seamDynamic[x][y] = energyTable[x][y] + minimum;
-
 	            			if (minimum == seamDynamic[x][y - 1]) {
 	            				// add backtracker.
 	            				backtracker[x][y] = 1;
@@ -231,8 +217,6 @@ public class SeamCarver {
 	            			}
 	            		} else {
 	            			minimum = Math.min(seamDynamic[x - 1][y - 1], Math.min(seamDynamic[x][y - 1], seamDynamic[x + 1][y - 1]));
-	            			// seamDynamic[x][y] = energyTable[x][y] + minimum;
-
 	            			if (minimum == seamDynamic[x - 1][y - 1]) {
 	            				// add backtracker.
 	            				backtracker[x][y] = 0;
@@ -253,7 +237,6 @@ public class SeamCarver {
 	        // 0 --> x - 1.
 	        // 1 --> x.
 	        // 2 --> x + 1.
-	        // code: loop until null.
 	        // first we need to find the min at the end.
 	        double min_num = seamDynamic[0][height - 1];
 	        int min_index = 0;
@@ -272,7 +255,6 @@ public class SeamCarver {
             int backtrack;
             while (y_index > 0) {
             	backtrack = backtracker[x_index][y_index];
-
             	if (backtrack != -1) {
 	            	if (backtrack == 0) {
 	            		x_index = x_index - 1;
@@ -304,8 +286,6 @@ public class SeamCarver {
 	            		// need to special case the top/bottom.
 	            		if (y == 0) {
 	            			minimum = Math.min(seamDynamic[x - 1][y], seamDynamic[x - 1][y + 1]);
-	            			// seamDynamic[x][y] = energyTable[x][y] + minimum;
-
 	            			if (minimum == seamDynamic[x - 1][y]) {
 	            				// add backtracker.
 	            				backtracker[x][y] = 1;
@@ -315,8 +295,6 @@ public class SeamCarver {
 	            			}
 	            		} else if (y == (height - 1)) {
 	            			minimum = Math.min(seamDynamic[x - 1][y], seamDynamic[x - 1][y - 1]);
-	            			// seamDynamic[x][y] = energyTable[x][y] + minimum;
-
 	            			if (minimum == seamDynamic[x - 1][y]) {
 	            				// add backtracker.
 	            				backtracker[x][y] = 1;
@@ -326,8 +304,6 @@ public class SeamCarver {
 	            			}
 	            		} else {
 	            			minimum = Math.min(seamDynamic[x - 1][y - 1], Math.min(seamDynamic[x - 1][y], seamDynamic[x - 1][y + 1]));
-	            			// seamDynamic[x][y] = energyTable[x][y] + minimum;
-
 	            			if (minimum == seamDynamic[x - 1][y - 1]) {
 	            				// add backtracker.
 	            				backtracker[x][y] = 0;
@@ -348,7 +324,6 @@ public class SeamCarver {
 	        // 0 --> y - 1.
 	        // 1 --> y.
 	        // 2 --> y + 1.
-	        // code: loop until null.
 	        // first we need to find the min at the end.
 	        double min_num = seamDynamic[width - 1][0];
 	        int min_index = 0;
@@ -367,7 +342,6 @@ public class SeamCarver {
             int backtrack;
             while (x_index > 0) {
             	backtrack = backtracker[x_index][y_index];
-
             	if (backtrack != -1) {
 	            	if (backtrack == 0) {
 	            		y_index = y_index - 1;
