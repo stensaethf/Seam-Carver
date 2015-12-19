@@ -195,6 +195,13 @@ public class SeamCarver {
 		return energyTable;
 	}
 
+	/**
+	 * findSeam() finds a seam given an energy table and a direction. The seam is
+	 * the path from bottom to top or left to right with minimum total energy.
+	 *
+	 * @param energy table (double[][]) and direction (vertical / horizontal).
+	 * @return seam (int[x or y][x, y]).
+	 */
 	private static int[][] findSeam(double[][] energyTable, String direction) {
 		int[][] seam;
 		int width = energyTable.length;
@@ -382,6 +389,12 @@ public class SeamCarver {
 		return seam;
 	}
 
+	/**
+	 * removeSeam() removes a given seam from an image.
+	 *
+	 * @param image, seam[][] and direction (vertical / horizontal).
+	 * @return carved image.
+	 */
 	private static BufferedImage removeSeam(BufferedImage image, int[][] seam, String direction) {
 		BufferedImage newImage;
 		int width = image.getWidth();
@@ -447,6 +460,12 @@ public class SeamCarver {
 		return newImage;
 	}
 
+	/**
+	 * showImage() displays the given image.
+	 *
+	 * @param image.
+	 * @return n/a.
+	 */
 	private static void showImage(BufferedImage image) {
         JFrame frame = new JFrame();
         frame.getContentPane().setLayout(new FlowLayout());
