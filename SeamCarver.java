@@ -29,6 +29,7 @@ import javax.swing.ImageIcon;
  */
 public class SeamCarver {
 	public static void main(String[] args) {
+		// Initialize and get the parameters from the command line.
 		boolean showImages = false;
 		String imageFilePath = null;
 		String outputImageFilePath = null;
@@ -53,6 +54,7 @@ public class SeamCarver {
 			}
 		}
 
+		// Make sure that the command line arguments given were valid.
 		if (imageFilePath == null && outputImageFilePath == null) {
             System.err.println("Usage: java SeamCarver inputImage outputImage numOfSeams seamDirection [--show]");
             return;
@@ -75,11 +77,12 @@ public class SeamCarver {
             return;
         }
 
-        // Get the new image w/o one seam.
+        // Remove num seams from the input image. We remove one at the time, as
+        // we need to recompute the energy table each time.
         BufferedImage newImage = image;
         while (num > 0) {
         	System.out.println(num);
-
+        	// Get the new image w/o one seam.
         	newImage = carveSeam(newImage, direction);
 
         	num = num - 1;
@@ -94,13 +97,20 @@ public class SeamCarver {
             return;
         }
 
-        // Show the before and after images
+        // Show the before and after images.
         if (showImages) {
             showImage(image);
             showImage(newImage);
         }
 	}
 
+	/**
+	 * carveSeam() takes an image and removes a single seam from that image in the
+	 * desired direction.
+	 *
+	 * @param image to be carved and direction of the seam (vertical / horizontal).
+	 * @return carved image.
+	 */
 	private static BufferedImage carveSeam(BufferedImage image, String direction) {
 		// We need to compute the energy table, find and remove a seam.
 		BufferedImage newImage = null;
@@ -111,6 +121,15 @@ public class SeamCarver {
 		return newImage;
 	}
 
+	/**
+	 * computeEnergy() takes an image and computes the energy table for that image.
+	 * The energy of a pixel is the difference in the color of the pixels next to it
+	 * (vertical and horizontal). If the pixel is at the edge the pixel itself replaces
+	 * the pixel that is 'missing'.
+	 *
+	 * @param image.
+	 * @return energy table (double[][]).
+	 */
 	private static double[][] computeEnergy(BufferedImage image) {
 		int width = image.getWidth();
         int height = image.getHeight();
